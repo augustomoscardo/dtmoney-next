@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Modal from "react-modal";
 import Image from "next/image";
 
@@ -18,31 +18,31 @@ export function EditTransactionModal({
   isOpen,
   onRequestClose,
 }: EditTransactionModalProps) {
-  const { transactions, createTransaction, editTransaction } =
-    useTransactions();
+  const { editTransaction, editingTransaction } = useTransactions();
 
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState(0);
   const [category, setCategory] = useState("");
-  const [type, setType] = useState("deposit"); //por padrão irá iniciar como deposit
+  const [type, setType] = useState<string>(""); //por padrão irá iniciar como deposit
 
   async function handleEditTransaction(event: FormEvent) {
     event.preventDefault();
 
     await editTransaction({
+      _id: editingTransaction._id,
       title,
       amount,
       category,
       type,
     });
 
-    setTitle("");
-    setAmount(0);
-    setCategory("");
-    setType("deppsit");
-
     onRequestClose();
   }
+
+  useEffect(() => {
+    if (!editingTransaction) return;
+    setType(editingTransaction.type);
+  }, [editingTransaction]);
 
   return (
     <Modal
@@ -58,19 +58,19 @@ export function EditTransactionModal({
       >
         <Image src={closeImg} alt="Fechar modal" />
       </button>
-      <Container onSubmit={handleCreateNewTransaction}>
-        <h2>Cadastrar Transação</h2>
+      <Container onSubmit={handleEditTransaction}>
+        <h2>Editar Transação</h2>
 
         <input
           placeholder="Título"
-          value={title}
+          defaultValue={editingTransaction.title}
           onChange={(event) => setTitle(event.target.value)} // salvando o novo valor de title pelo setTitle
         />
 
         <input
           placeholder="Valor"
           type="number"
-          value={amount}
+          defaultValue={editingTransaction.amount}
           onChange={(event) =>
             setAmount(Number(event.target.value))
           } /* no caso do input number, precisa converter a string pra number. Foi usado
@@ -105,7 +105,7 @@ export function EditTransactionModal({
 
         <input
           placeholder="Categoria"
-          value={category}
+          defaultValue={editingTransaction.category}
           onChange={(event) => setCategory(event.target.value)}
         />
 

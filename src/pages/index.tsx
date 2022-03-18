@@ -8,7 +8,6 @@ import { useEffect } from "react";
 import dashboardImg from "../../public/assets/dtmoney-dashboard.png";
 
 import { Header } from "../components/Header";
-import { LoginForm } from "../components/LoginForm";
 
 import { Container } from "./homeStyles";
 
@@ -33,8 +32,6 @@ const Home = () => {
       <Container>
         <span>Faça o controle do seu saldo financeiro de maneira simples</span>
         <Image src={dashboardImg} alt="dtmoney-dashboard" width="900px" />
-
-        {/* <LoginForm /> */}
       </Container>
     </>
   );

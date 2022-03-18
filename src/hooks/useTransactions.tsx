@@ -5,6 +5,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { EditTransactionModal } from "../components/EditTransactionModal";
 import { api } from "../services/api";
 
 interface Transaction {
@@ -13,11 +14,11 @@ interface Transaction {
   amount: number;
   type: string;
   category: string;
-  created_at: string;
-  updated_at?: string;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 
-type TransactionInput = Omit<Transaction, "id" | "createdAt">; // TransactionInput herda os campos de Transaction, menos o id e createdAt
+// type TransactionInput = Omit<Transaction, "id" | "createdAt">; // TransactionInput herda os campos de Transaction, menos o id e createdAt
 
 interface TransactionsProviderProps {
   children: ReactNode;
@@ -25,8 +26,11 @@ interface TransactionsProviderProps {
 
 interface TransactionsContextData {
   transactions: Transaction[];
-  createTransaction: (transaction: TransactionInput) => Promise<void>;
-  editTransaction: (transaction: TransactionInput) => Promise<void>;
+  createTransaction: (transaction: Transaction) => Promise<void>;
+  editTransaction: (transaction: Transaction) => Promise<void>;
+  handleOpenEditTransactionModal: (id: string) => void;
+  handleCloseEditTransactionModal: () => void;
+  editingTransaction: Transaction;
 }
 
 const TransactionsContext = createContext<TransactionsContextData>(
@@ -35,19 +39,48 @@ const TransactionsContext = createContext<TransactionsContextData>(
 
 export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [editingTransaction, setEditingTransaction] = useState(
+    {} as Transaction
+  );
+
+  const [isEditTransactionModalOpen, setIsEditTransactionModalOpen] =
+    useState(false);
+  const [isDeleteTransactionModalOpen, setIsDeleteTransactionModalOpen] =
+    useState(false);
 
   useEffect(() => {
     api.get("transactions/list-transactions").then((response) => {
-      console.log(response.data.data);
-
       setTransactions(response.data.data);
     });
   }, []);
 
-  async function createTransaction(transactionInput: TransactionInput) {
+  function handleOpenEditTransactionModal(_id: string) {
+    setIsEditTransactionModalOpen(true);
+
+    const foundTransaction = transactions.find(
+      (transaction) => transaction._id === _id
+    );
+
+    if (!foundTransaction) return;
+
+    setEditingTransaction(foundTransaction);
+  }
+
+  function handleCloseEditTransactionModal() {
+    setIsEditTransactionModalOpen(false);
+  }
+
+  function handleOpenDeleteTransactionModal(_id: string) {
+    setIsDeleteTransactionModalOpen(true);
+  }
+
+  function handleCloseDeleteTransactionModal() {
+    setIsDeleteTransactionModalOpen(false);
+  }
+
+  async function createTransaction(transactionData: Transaction) {
     const response = await api.post("/transactions/create", {
-      ...transactionInput,
-      // createdAt: new Date(),
+      ...transactionData,
     });
 
     const { transaction } = response.data;
@@ -55,10 +88,18 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     setTransactions([...transactions, transaction]);
   }
 
-  async function editTransaction(transactionInput: TransactionInput) {
+  async function editTransaction(transactionData: Transaction) {
     const response = await api.post("/transactions/edit", {
-      ...transactionInput,
+      ...transactionData,
     });
+
+    const { transaction } = response.data;
+
+    setTransactions([...transactions, transaction]);
+  }
+
+  async function deleteTransaction({ _id }: Transaction) {
+    const response = await api.post("/transactions/delete", {});
 
     const { transaction } = response.data;
 
@@ -67,9 +108,20 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
 
   return (
     <TransactionsContext.Provider
-      value={{ transactions, createTransaction, editTransaction }}
+      value={{
+        transactions,
+        createTransaction,
+        editTransaction,
+        handleOpenEditTransactionModal,
+        handleCloseEditTransactionModal,
+        editingTransaction,
+      }}
     >
       {children}
+      <EditTransactionModal
+        isOpen={isEditTransactionModalOpen}
+        onRequestClose={handleCloseEditTransactionModal}
+      />
     </TransactionsContext.Provider>
   );
 }

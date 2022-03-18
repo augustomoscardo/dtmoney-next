@@ -1,9 +1,10 @@
+import { useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useTransactions } from "../../hooks/useTransactions";
 import { Container } from "./styles";
 
 export function TransactionsTable() {
-  const { transactions } = useTransactions();
+  const { transactions, handleOpenEditTransactionModal } = useTransactions();
 
   return (
     <Container>
@@ -31,11 +32,18 @@ export function TransactionsTable() {
                   <td>{transaction.category}</td>
                   <td>
                     {new Intl.DateTimeFormat("pt-BR").format(
-                      new Date(transaction.created_at)
+                      new Date(transaction.created_at as string)
                     )}
                   </td>
                   <td className="editDeleteButtons">
-                    <button type="button">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        handleOpenEditTransactionModal(
+                          transaction._id as string
+                        )
+                      }
+                    >
                       <FaEdit />
                     </button>
                     <button type="button">

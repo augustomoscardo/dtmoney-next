@@ -5,6 +5,7 @@ import { useState } from "react";
 import Modal from "react-modal";
 
 import { Dashboard } from "../../components/Dashboard";
+import { EditTransactionModal } from "../../components/EditTransactionModal";
 import { Header } from "../../components/Header";
 import { NewTransactionModal } from "../../components/NewTransactionModal";
 import { TransactionsProvider } from "../../hooks/useTransactions";
@@ -41,34 +42,3 @@ const UserDashboard = () => {
 };
 
 export default UserDashboard;
-
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const session = getSession({ req });
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
-  // const response = await api.get("transactions");
-
-  // const transactions = response.data.map((transaction) => {
-  //   return {
-  //     title: transaction.title,
-  //     amount: transaction.amount,
-  //     type: transaction.type,
-  //     category: transaction.category,
-  //     userName: transaction.userName,
-  //   };
-  // });
-
-  return {
-    props: {
-      // transactions,
-    },
-  };
-};

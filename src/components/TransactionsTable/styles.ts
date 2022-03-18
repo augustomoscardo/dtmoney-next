@@ -21,6 +21,13 @@ export const Container = styled.div`
     width: 100%;
     border-spacing: 0 0.5rem; // spacing between items of table
 
+    @media (max-width: 380px) {
+      th:nth-child(4),
+      td:nth-child(4) {
+        display: none;
+      }
+    }
+
     th {
       color: var(--text-body);
       font-weight: 400;
@@ -59,6 +66,10 @@ export const Container = styled.div`
       button {
         border: none;
         text-decoration: none;
+        background-color: transparent;
+
+        width: 20px;
+        height: 20px;
 
         &:first-child {
           color: var(--blue-light);
