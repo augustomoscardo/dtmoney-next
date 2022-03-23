@@ -57,13 +57,13 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   function handleOpenEditTransactionModal(_id: string) {
     setIsEditTransactionModalOpen(true);
 
-    const foundTransaction = transactions.find(
+    const selectedTransaction = transactions.find(
       (transaction) => transaction._id === _id
     );
 
-    if (!foundTransaction) return;
+    if (!selectedTransaction) return;
 
-    setEditingTransaction(foundTransaction);
+    setEditingTransaction(selectedTransaction);
   }
 
   function handleCloseEditTransactionModal() {
@@ -89,17 +89,23 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   }
 
   async function editTransaction(transactionData: Transaction) {
-    const response = await api.post("/transactions/edit", {
-      ...transactionData,
-    });
+    console.log(transactionData);
+
+    const response = await api.post("/transactions/edit", transactionData);
 
     const { transaction } = response.data;
 
-    setTransactions([...transactions, transaction]);
+    //Compare previous array with new array updated
+    const updatedTransactions: any = transactions.map((transactionData) =>
+      transactionData._id === transaction._id ? transaction : transactionData
+    );
+
+    setTransactions(updatedTransactions);
   }
 
   async function deleteTransaction({ _id }: Transaction) {
     const response = await api.post("/transactions/delete", {});
+    // .filter(t => t._id !== transactionData._id)
 
     const { transaction } = response.data;
 

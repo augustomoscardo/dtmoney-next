@@ -79,7 +79,7 @@ export default NextAuth({
         if (!hasUser) {
           console.log("Inserting new user in DB");
           await User.create({ name, email }); //not working
-          console.log(`User created`);
+          console.log(`User: ${name} - ${email} created`);
         }
 
         return true;

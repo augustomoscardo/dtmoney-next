@@ -19,7 +19,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const user = await User.findOne({ userEmail });
 
     const transactions = await Transaction.find({ user: user._id });
-    console.log(transactions);
 
     res.status(200).json({ succes: true, data: transactions });
   } catch (error) {

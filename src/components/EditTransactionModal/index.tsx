@@ -41,6 +41,9 @@ export function EditTransactionModal({
 
   useEffect(() => {
     if (!editingTransaction) return;
+    setTitle(editingTransaction.title);
+    setAmount(editingTransaction.amount);
+    setCategory(editingTransaction.category);
     setType(editingTransaction.type);
   }, [editingTransaction]);
 
