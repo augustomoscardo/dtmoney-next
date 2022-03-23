@@ -4,7 +4,11 @@ import { useTransactions } from "../../hooks/useTransactions";
 import { Container } from "./styles";
 
 export function TransactionsTable() {
-  const { transactions, handleOpenEditTransactionModal } = useTransactions();
+  const {
+    transactions,
+    handleOpenEditTransactionModal,
+    handleOpenDeleteTransactionModal,
+  } = useTransactions();
 
   return (
     <Container>
@@ -46,7 +50,14 @@ export function TransactionsTable() {
                     >
                       <FaEdit />
                     </button>
-                    <button type="button">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        handleOpenDeleteTransactionModal(
+                          transaction._id as string
+                        )
+                      }
+                    >
                       <FaTrash />
                     </button>
                   </td>

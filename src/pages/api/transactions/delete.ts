@@ -1,25 +1,25 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getSession } from "next-auth/react";
 import Transaction from "../../../Schemas/Transaction";
 import dbConnect from "../../../services/mongoose";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  //select transaction by ID
+  // delete transaction
+
   try {
     const { method } = req;
-    const { title, amount, type, category } = req.body;
-    const userName = getSession();
+    const { _id } = req.body;
+    console.log(req.body);
 
     if (method !== "POST") return res.status(400).json({ success: false });
 
     await dbConnect();
 
-    const transaction = await Transaction.findOne({});
+    const deleteTransaction = await Transaction.deleteOne({ _id });
 
-    const transactionDelete = await Transaction.deleteOne({
-      transaction,
-    });
+    console.log(`Transação: ${JSON.stringify(deleteTransaction)} deletada.`);
 
-    return res.json({ message: true, transactionDelete });
+    return res.json({ message: true, transaction: deleteTransaction });
   } catch (err) {
     console.log(err);
   }

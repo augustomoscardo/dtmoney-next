@@ -5,6 +5,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { DeleteTransactionModal } from "../components/DeleteTransactionModal";
 import { EditTransactionModal } from "../components/EditTransactionModal";
 import { api } from "../services/api";
 
@@ -28,9 +29,13 @@ interface TransactionsContextData {
   transactions: Transaction[];
   createTransaction: (transaction: Transaction) => Promise<void>;
   editTransaction: (transaction: Transaction) => Promise<void>;
+  deleteTransaction: (transaction: Transaction) => Promise<void>;
   handleOpenEditTransactionModal: (id: string) => void;
   handleCloseEditTransactionModal: () => void;
   editingTransaction: Transaction;
+  handleOpenDeleteTransactionModal: (id: string) => void;
+  handleCloseDeleteTransactionModal: () => void;
+  deletingTransaction: Transaction;
 }
 
 const TransactionsContext = createContext<TransactionsContextData>(
@@ -40,6 +45,9 @@ const TransactionsContext = createContext<TransactionsContextData>(
 export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [editingTransaction, setEditingTransaction] = useState(
+    {} as Transaction
+  );
+  const [deletingTransaction, setDeletingTransaction] = useState(
     {} as Transaction
   );
 
@@ -72,6 +80,14 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
 
   function handleOpenDeleteTransactionModal(_id: string) {
     setIsDeleteTransactionModalOpen(true);
+
+    const selectedTransaction = transactions.find(
+      (transaction) => transaction._id === _id
+    );
+
+    if (!selectedTransaction) return;
+
+    setDeletingTransaction(selectedTransaction);
   }
 
   function handleCloseDeleteTransactionModal() {
@@ -103,13 +119,17 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     setTransactions(updatedTransactions);
   }
 
-  async function deleteTransaction({ _id }: Transaction) {
-    const response = await api.post("/transactions/delete", {});
+  async function deleteTransaction(transactionData: Transaction) {
+    const response = await api.post("/transactions/delete", transactionData);
     // .filter(t => t._id !== transactionData._id)
 
     const { transaction } = response.data;
 
-    setTransactions([...transactions, transaction]);
+    const newTransactionsArray = transactions.filter(
+      (t) => t._id !== transactionData._id
+    );
+
+    setTransactions(newTransactionsArray);
   }
 
   return (
@@ -118,15 +138,23 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
         transactions,
         createTransaction,
         editTransaction,
+        deleteTransaction,
         handleOpenEditTransactionModal,
         handleCloseEditTransactionModal,
         editingTransaction,
+        handleOpenDeleteTransactionModal,
+        handleCloseDeleteTransactionModal,
+        deletingTransaction,
       }}
     >
       {children}
       <EditTransactionModal
         isOpen={isEditTransactionModalOpen}
         onRequestClose={handleCloseEditTransactionModal}
+      />
+      <DeleteTransactionModal
+        isOpen={isDeleteTransactionModalOpen}
+        onRequestClose={handleCloseDeleteTransactionModal}
       />
     </TransactionsContext.Provider>
   );

@@ -3,10 +3,8 @@ import Modal from "react-modal";
 import Image from "next/image";
 
 import closeImg from "../../../public/assets/close.svg";
-import incomeImg from "../../../public/assets/income.svg";
-import outcomeImg from "../../../public/assets/outcome.svg";
 
-import { Container, TransactionTypeContainer, RadioBox } from "./styles";
+import { Container } from "./styles";
 import { useTransactions } from "../../hooks/useTransactions";
 
 interface DeleteTransactionModalProps {
@@ -14,24 +12,26 @@ interface DeleteTransactionModalProps {
   onRequestClose: () => void;
 }
 
-export function EditTransactionModal({
+export function DeleteTransactionModal({
   isOpen,
   onRequestClose,
 }: DeleteTransactionModalProps) {
-  const {} = useTransactions();
+  const { deletingTransaction, deleteTransaction } = useTransactions();
 
   const [title, setTitle] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [category, setCategory] = useState("");
-  const [type, setType] = useState<string>(""); //por padrão irá iniciar como deposit
 
-  async function handleEDeleteTransaction(event: FormEvent) {
+  async function handleDeleteTransaction(event: FormEvent) {
     event.preventDefault();
 
-    await deleteTransaction({});
+    await deleteTransaction({ _id: deletingTransaction._id });
 
     onRequestClose();
   }
+
+  useEffect(() => {
+    if (!deletingTransaction) return;
+    setTitle(deletingTransaction.title);
+  }, [deletingTransaction]);
 
   return (
     <Modal
@@ -48,54 +48,14 @@ export function EditTransactionModal({
         <Image src={closeImg} alt="Fechar modal" />
       </button>
       <Container onSubmit={handleDeleteTransaction}>
-        <h2>Editar Transação</h2>
+        <h2>Deletar Transação</h2>
 
-        <input
-          placeholder="Título"
-          onChange={(event) => setTitle(event.target.value)} // salvando o novo valor de title pelo setTitle
-        />
+        <span>
+          Deseja deletar a transação: &quot;
+          <strong>{deletingTransaction.title}</strong>&quot;?
+        </span>
 
-        <input
-          placeholder="Valor"
-          type="number"
-          onChange={(event) =>
-            setAmount(Number(event.target.value))
-          } /* no caso do input number, precisa converter a string pra number. Foi usado
-          o constructor Number para essa conversão. */
-        />
-
-        <TransactionTypeContainer>
-          <RadioBox
-            type="button"
-            onClick={() => {
-              setType("deposit");
-            }}
-            isActive={type === "deposit"}
-            activeColor="green"
-          >
-            <Image src={incomeImg} alt="Entrada" />
-            <span>Entrada</span>
-          </RadioBox>
-
-          <RadioBox
-            type="button"
-            onClick={() => {
-              setType("withdraw");
-            }}
-            isActive={type === "withdraw"}
-            activeColor="red"
-          >
-            <Image src={outcomeImg} alt="Saída" />
-            <span>Saída</span>
-          </RadioBox>
-        </TransactionTypeContainer>
-
-        <input
-          placeholder="Categoria"
-          onChange={(event) => setCategory(event.target.value)}
-        />
-
-        <button type="submit">Deseja deletar essa transação?</button>
+        <button type="submit">Deletar</button>
       </Container>
     </Modal>
   );
