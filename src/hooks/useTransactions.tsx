@@ -29,7 +29,7 @@ interface TransactionsContextData {
   transactions: Transaction[];
   createTransaction: (transaction: Transaction) => Promise<void>;
   editTransaction: (transaction: Transaction) => Promise<void>;
-  deleteTransaction: (transaction: Transaction) => Promise<void>;
+  deleteTransaction: (id: string) => Promise<void>;
   handleOpenEditTransactionModal: (id: string) => void;
   handleCloseEditTransactionModal: () => void;
   editingTransaction: Transaction;
@@ -119,15 +119,11 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     setTransactions(updatedTransactions);
   }
 
-  async function deleteTransaction(transactionData: Transaction) {
-    const response = await api.post("/transactions/delete", transactionData);
+  async function deleteTransaction(_id: string) {
+    await api.post("/transactions/delete", { _id });
     // .filter(t => t._id !== transactionData._id)
 
-    const { transaction } = response.data;
-
-    const newTransactionsArray = transactions.filter(
-      (t) => t._id !== transactionData._id
-    );
+    const newTransactionsArray = transactions.filter((t) => t._id !== _id);
 
     setTransactions(newTransactionsArray);
   }

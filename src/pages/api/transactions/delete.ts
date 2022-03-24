@@ -17,7 +17,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const deleteTransaction = await Transaction.deleteOne({ _id });
 
-    console.log(`Transação: ${JSON.stringify(deleteTransaction)} deletada.`);
+    console.log(`Transação deletada com sucesso.`);
 
     return res.json({ message: true, transaction: deleteTransaction });
   } catch (err) {

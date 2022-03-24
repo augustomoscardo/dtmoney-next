@@ -23,7 +23,9 @@ export function DeleteTransactionModal({
   async function handleDeleteTransaction(event: FormEvent) {
     event.preventDefault();
 
-    await deleteTransaction({ _id: deletingTransaction._id });
+    if (!deletingTransaction._id) return;
+
+    await deleteTransaction(deletingTransaction._id);
 
     onRequestClose();
   }
