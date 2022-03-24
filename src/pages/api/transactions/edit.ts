@@ -9,7 +9,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { method } = req;
     const { _id, title, amount, type, category } = req.body;
-    console.log(req.body);
 
     if (method !== "POST") return res.status(400).json({ success: false });
 
