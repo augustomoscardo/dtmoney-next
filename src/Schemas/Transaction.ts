@@ -1,6 +1,12 @@
-import mongoose, { model, Schema } from "mongoose";
+import mongoose, {
+  model,
+  Schema,
+  PaginateModel,
+  PaginateOptions,
+} from "mongoose";
+import paginate from "mongoose-paginate-v2";
 
-interface Transaction {
+interface Transaction extends Document {
   title: string;
   amount: number;
   type: string;
@@ -24,5 +30,7 @@ const schema = new Schema<Transaction>(
   }
 );
 
+schema.plugin(paginate);
+
 export default mongoose.models.Transaction ||
-  model<Transaction>("Transaction", schema);
+  model<Transaction, PaginateModel<Transaction>>("Transaction", schema);

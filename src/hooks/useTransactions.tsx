@@ -58,7 +58,13 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
 
   useEffect(() => {
     api.get("transactions/list-transactions").then((response) => {
-      setTransactions(response.data.data);
+      const data = response.data.data.transactionsList;
+
+      const transactionsList = data.map((t: Transaction) => t);
+
+      console.log(transactionsList);
+
+      setTransactions(transactionsList);
     });
   }, []);
 
