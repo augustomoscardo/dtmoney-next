@@ -13,6 +13,16 @@ export const Content = styled.div`
   justify-content: space-between;
   align-items: center;
 
+  @media (max-width: 380px) {
+    padding: 2rem 1rem 6rem;
+
+    div {
+      img {
+        width: 80px;
+      }
+    }
+  }
+
   .buttons {
     button {
       font-size: 1rem;
@@ -20,11 +30,16 @@ export const Content = styled.div`
       border-radius: 0.25rem;
       height: 3rem;
       color: #fff;
-      padding: 0 1.5rem;
+      padding: 0 2rem;
+
+      @media (max-width: 380px) {
+        font-size: 0.625rem;
+        height: 1.5rem;
+        padding: 0 0.625rem;
+      }
     }
 
     .signInButton {
-      /* width: 200px; */
       width: 100%;
       font-weight: 600;
       letter-spacing: 1px;
@@ -37,20 +52,27 @@ export const Content = styled.div`
 
       transition: filter 0.2s;
 
+      &:hover {
+        filter: brightness(0.9);
+      }
+
+      @media (max-width: 380px) {
+      }
+
       svg {
         width: 20px;
         height: 20px;
         margin-right: 1rem;
-      }
-
-      &:hover {
-        filter: brightness(0.9);
       }
     }
 
     .signedIn {
       display: flex;
       gap: 1rem;
+
+      @media (max-width: 380px) {
+        gap: 0.5rem;
+      }
 
       button {
         background: var(--blue);

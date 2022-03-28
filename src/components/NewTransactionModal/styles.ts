@@ -12,7 +12,7 @@ export const Container = styled.form`
     width: 100%;
     padding: 0 1.5rem;
     height: 4rem;
-    border-radius: 0%.25rem;
+    border-radius: 0.25rem;
 
     border: 1px solid #d7d7d7;
     background: #e7e9ee;
@@ -68,7 +68,7 @@ const colors = {
 export const RadioBox = styled.button<RadioBoxProps>`
     height: 4rem;
     border: 1px solid #d7d7d7;
-    border-radius: 0%.25rem;
+    border-radius: 0.25rem;
 
     background: ${(props) =>
       props.isActive
@@ -99,7 +99,7 @@ export const RadioBox = styled.button<RadioBoxProps>`
   }button {
     height: 4rem;
     border: 1px solid #d7d7d7;
-    border-radius: 0%.25rem;
+    border-radius: 0.25rem;
 
     background: transparent;
 
