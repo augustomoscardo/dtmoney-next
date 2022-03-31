@@ -89,20 +89,12 @@ export const Container = styled.div`
     .editDeleteButtons {
       div {
         display: flex;
-        gap: 1rem;
-      }
-
-      button + button {
-        margin-left: 2rem;
-      }
-
-      @media (max-width: 380px) {
-        display: flex;
         align-items: center;
         justify-content: center;
+        gap: 2rem;
 
-        button + button {
-          margin-left: 1rem;
+        @media (max-width: 380px) {
+          gap: 0.5rem;
         }
       }
     }
