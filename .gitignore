@@ -30,8 +30,9 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
-# files
-/src/services/mongoose.ts
+# files or folders
+src/components/LoginForm
+src/components/CreateForm
 
 # vercel
 .vercel

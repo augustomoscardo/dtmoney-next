@@ -13,12 +13,9 @@ async function dbConnect() {
 
   if (!cached.promise) {
     cached.promise = mongoose
-      .connect(
-        "mongodb+srv://augusto:a6vfXkFCJlOBQeIb@cluster0.bgcpt.mongodb.net/dt-money?authSource=admin&replicaSet=atlas-538uy2-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true",
-        {
-          useUnifiedTopology: true,
-        }
-      )
+      .connect("process.env.DATABASE_URL", {
+        useUnifiedTopology: true,
+      })
       .then((mongoose) => {
         return mongoose;
       });
