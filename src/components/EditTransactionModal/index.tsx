@@ -23,7 +23,7 @@ export function EditTransactionModal({
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState(0);
   const [category, setCategory] = useState("");
-  const [type, setType] = useState<string>(""); //por padrão irá iniciar como deposit
+  const [type, setType] = useState<string>("");
 
   async function handleEditTransaction(event: FormEvent) {
     event.preventDefault();
@@ -67,17 +67,14 @@ export function EditTransactionModal({
         <input
           placeholder="Título"
           defaultValue={editingTransaction.title}
-          onChange={(event) => setTitle(event.target.value)} // salvando o novo valor de title pelo setTitle
+          onChange={(event) => setTitle(event.target.value)}
         />
 
         <input
           placeholder="Valor"
           type="number"
           defaultValue={editingTransaction.amount}
-          onChange={(event) =>
-            setAmount(Number(event.target.value))
-          } /* no caso do input number, precisa converter a string pra number. Foi usado
-          o constructor Number para essa conversão. */
+          onChange={(event) => setAmount(Number(event.target.value))}
         />
 
         <TransactionTypeContainer>

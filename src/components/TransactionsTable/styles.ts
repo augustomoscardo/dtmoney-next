@@ -27,8 +27,6 @@ export const Container = styled.div`
     border-spacing: 0 0.5rem; // spacing between items of table
 
     @media (max-width: 380px) {
-      /* width: 80%; */
-
       thead,
       th:nth-child(4),
       td:nth-child(4) {
@@ -61,7 +59,6 @@ export const Container = styled.div`
       border: 0;
       background: var(--shape);
       color: var(--text-body);
-      /* border-radius: 0.25rem; */
 
       @media (max-width: 380px) {
         padding: 1rem 0.625rem;

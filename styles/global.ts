@@ -51,20 +51,19 @@ export const GlobalStyle = createGlobalStyle`
 
   [disabled] {
     opacity: 0.6;
-    cursor: not-allowed   // mostra a placa de não permitido no cursor do mouse
+    cursor: not-allowed 
   }
 
   .react-modal-overlay {
-    background: rgba(0, 0, 0, 0.5); //bg preto com opacity 0.5
+    background: rgba(0, 0, 0, 0.5);
 
-    position: fixed; //para ocupar tela toda
+    position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    //para que o overlay ocupe a tela toda.
 
-    display: flex; // para colocar a parte do coteúdo do modal no centro
+    display: flex;
     align-items: center;
     justify-content: center;
 
@@ -76,10 +75,10 @@ export const GlobalStyle = createGlobalStyle`
 
   .react-modal-content {
     width: 100%;
-    max-width: 576px;  // com menos de 576px, a largura fica 100% do tamanho da tela
+    max-width: 576px;  
     background: var(--background);
     padding: 3rem;
-    position: relative;  //relative pois tem elementos que vão receber position absolute
+    position: relative;
     border-radius: 0.25rem;
 
     @media (max-width: 380px) {

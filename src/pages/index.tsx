@@ -37,21 +37,4 @@ const Home = () => {
   );
 };
 
-// export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-//   const session = await getSession({ req });
-
-//   if (session) {
-//     return {
-//       redirect: {
-//         destination: "/dashboard",
-//         permanent: false,
-//       },
-//     };
-//   }
-
-//   return {
-//     props: {},
-//   };
-// };
-
 export default Home;

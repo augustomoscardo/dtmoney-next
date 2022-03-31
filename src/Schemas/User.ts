@@ -7,15 +7,12 @@ import dbConnect from "../services/mongoose";
 interface User extends Document {
   name: string;
   email: string;
-  // password: string;
-  // validatePassword(password: string): boolean;
 }
 
 const schema = new Schema<User>(
   {
     name: { type: String, required: true },
     email: { type: String, required: true },
-    // password: { type: String, required: true },
   },
   {
     timestamps: {
@@ -24,6 +21,8 @@ const schema = new Schema<User>(
     },
   }
 );
+
+export default mongoose.models.User || model<User>("User", schema);
 
 // schema.methods.validatePassword = async function (pass: string) {
 //   return bcrypt.compare(pass, this.password);
@@ -46,5 +45,3 @@ const schema = new Schema<User>(
 // });
 
 // mongoose.models = {};
-
-export default mongoose.models.User || model<User>("User", schema);

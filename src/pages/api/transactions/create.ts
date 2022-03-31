@@ -16,7 +16,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const userEmail = session?.user?.email; //get user from session
 
-    const user = await User.findOne({ userEmail }); //find in DB
+    const user = await User.findOne({ userEmail }); //find user in DB
 
     const transaction = await Transaction.create({
       title,
@@ -27,7 +27,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }); //create transaction after find user
 
     return res.json({ message: true, transaction });
-    // return res.status(201).json({ transaction });
   } catch (err) {
     console.log(err);
   }
