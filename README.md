@@ -4,7 +4,7 @@ This is a project developed during the Ignite ReactJS trail from [Rockeset](http
 
 ## Getting Started
 
-First, you'll need to create a mongoDB. Then take your DATABASE_URL and set at ```mongoose.ts``` file.
+First, you'll need to create a mongoDB. Then take your DATABASE_URL and set at `mongoose.ts` file.
 
 Run the development server:
 
@@ -12,9 +12,9 @@ Run the development server:
 
 # Project view
 
-  <img src="public/img/mobile-design.jpg" alt="Mobile design" width="200" height="400">
-  <img src="public/img/desktop-design.jpg" alt="Desktop design" width="300" height="150">
-  <img src="public/img/active-states.jpg" alt="Desktop active states" width="300" height="150">
+  <img src="" alt="Mobile design" width="200" height="400">
+  <img src="" alt="Desktop design" width="300" height="150">
+  <img src="" alt="Desktop active states" width="300" height="150">
 
 ## Technologies
 
