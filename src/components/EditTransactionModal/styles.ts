@@ -6,19 +6,29 @@ export const Container = styled.form`
     color: var(--text-title);
     font-size: 1.5rem;
     margin-bottom: 2rem;
+
+    @media (max-width: 380px) {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
   }
 
   input {
     width: 100%;
     padding: 0 1.5rem;
     height: 4rem;
-    border-radius: 0%.25rem;
+    border-radius: 0.25rem;
 
     border: 1px solid #d7d7d7;
     background: #e7e9ee;
 
     font-weight: 400;
     font-size: 1rem;
+
+    @media (max-width: 380px) {
+      height: 2.5rem;
+      font-size: 0.825rem;
+    }
 
     &::placeholder {
       color: var(--text-body);
@@ -41,6 +51,11 @@ export const Container = styled.form`
     font-weight: 600;
 
     transition: filter 0.2s;
+
+    @media (max-width: 380px) {
+      height: 2.5rem;
+      font-size: 0.825rem;
+    }
 
     &:hover {
       filter: brightness(0.9);
@@ -66,62 +81,49 @@ const colors = {
 };
 
 export const RadioBox = styled.button<RadioBoxProps>`
-    height: 4rem;
-    border: 1px solid #d7d7d7;
-    border-radius: 0%.25rem;
+  height: 4rem;
+  border: 1px solid #d7d7d7;
+  border-radius: 0.25rem;
 
-    background: ${(props) =>
-      props.isActive
-        ? transparentize(0.9, colors[props.activeColor])
-        : "transparent"};
+  background: ${(props) =>
+    props.isActive
+      ? transparentize(0.9, colors[props.activeColor])
+      : "transparent"};
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    transition: border-color 0.2s;
+  transition: border-color 0.2s;
 
-    &:hover {
-      border-color: ${darken(0.1, "#d7d7d7")};
+  @media (max-width: 380px) {
+    height: 2.5rem;
+    font-size: 0.825rem;
+  }
+
+  &:hover {
+    border-color: ${darken(0.1, "#d7d7d7")};
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
+
+    @media (max-width: 380px) {
+      width: 10px;
+      height: 10px;
     }
+  }
 
-    img {
-      width: 20px;
-      height: 20px;
+  span {
+    display: inline-block; //para conseguir aplicar margin.
+    margin-left: 1rem;
+    font-size: 1rem;
+    color: var(--text-title);
+
+    @media (max-width: 380px) {
+      margin-left: 0.625rem;
+      font-size: 0.825rem;
     }
-
-    span {
-      display: inline-block; //para conseguir aplicar margin.
-      margin-left: 1rem;
-      font-size: 1rem;
-      color: var(--text-title);
-    }
-  }button {
-    height: 4rem;
-    border: 1px solid #d7d7d7;
-    border-radius: 0%.25rem;
-
-    background: transparent;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    transition: border-color 0.2s;
-
-    &:hover {
-      border-color: ${darken(0.1, "#d7d7d7")};
-    }
-
-    img {
-      width: 20px;
-      height: 20px;
-    }
-
-    span {
-      display: inline-block; //para conseguir aplicar margin.
-      margin-left: 1rem;
-      font-size: 1rem;
-      color: var(--text-title);
-    }
+  }
 `;

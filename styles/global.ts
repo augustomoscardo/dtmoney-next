@@ -67,6 +67,11 @@ export const GlobalStyle = createGlobalStyle`
     display: flex; // para colocar a parte do coteúdo do modal no centro
     align-items: center;
     justify-content: center;
+
+    @media (max-width: 380px) {
+      max-width: 480px;
+      padding: 1rem;
+    }
   }
 
   .react-modal-content {
@@ -76,6 +81,10 @@ export const GlobalStyle = createGlobalStyle`
     padding: 3rem;
     position: relative;  //relative pois tem elementos que vão receber position absolute
     border-radius: 0.25rem;
+
+    @media (max-width: 380px) {
+      max-width: 480px;
+    }
   }
 
   .react-modal-close {

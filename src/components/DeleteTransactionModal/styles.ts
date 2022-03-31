@@ -6,16 +6,25 @@ export const Container = styled.form`
     color: var(--text-title);
     font-size: 1.5rem;
     margin-bottom: 2rem;
+
+    @media (max-width: 380px) {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
   }
 
   span {
+    width: 100%;
     color: var(--text-title);
     font-weight: 500;
+    font-size: 1rem;
 
-    display: flex;
-    justify-content: center;
+    display: inline-block;
+    margin: 0 auto;
 
-    width: 100%;
+    @media (max-width: 380px) {
+      font-size: 0.825rem;
+    }
   }
 
   button[type="submit"] {
@@ -31,6 +40,11 @@ export const Container = styled.form`
     font-weight: 600;
 
     transition: filter 0.2s;
+
+    @media (max-width: 380px) {
+      height: 2.5rem;
+      font-size: 0.825rem;
+    }
 
     &:hover {
       filter: brightness(0.9);
