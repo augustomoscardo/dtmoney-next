@@ -4,32 +4,9 @@ import Transaction from "../../../Schemas/Transaction";
 import User from "../../../Schemas/User";
 import dbConnect from "../../../services/mongoose";
 
-const myCustomLabels = {
-  docs: "transactionsList",
-  totalDocs: "itemsCount",
-  limit: "itemsPerPage",
-  page: "currentPage",
-  meta: "paginator",
-};
-
-const options = {
-  limit: 10,
-  collation: {
-    locale: "en",
-  },
-  lean: true,
-  leanWithId: true,
-  sort: { created_at: -1 },
-  customLabels: myCustomLabels,
-};
-
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  //get user in session -> find user -> list transactions by user._id
-
   try {
     const session = await getSession({ req });
-
-    const { page } = req.query;
 
     await dbConnect();
 
@@ -37,12 +14,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const user = await User.findOne({ userEmail });
 
-    const paginateTransaction = await Transaction.paginate(
-      { user: user._id },
-      { ...options, page: page || 1 }
-    );
+    const transactions = await Transaction.find({ user: user._id });
 
-    res.status(200).json({ succes: true, paginateTransaction });
+    res.status(200).json({ succes: true, transactions });
   } catch (error) {
     console.log(error);
 

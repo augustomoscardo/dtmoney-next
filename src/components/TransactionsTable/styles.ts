@@ -51,15 +51,26 @@ export const Container = styled.div`
       }
     }
 
+    tr {
+      border-radius: 0.25rem;
+    }
+
     td {
       padding: 1rem 2rem;
       border: 0;
       background: var(--shape);
       color: var(--text-body);
-      border-radius: 0.25rem;
+      /* border-radius: 0.25rem; */
 
       @media (max-width: 380px) {
         padding: 1rem 0.625rem;
+
+        &:first-child {
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          max-width: 90px;
+        }
       }
 
       &:first-child {
@@ -76,46 +87,55 @@ export const Container = styled.div`
     }
 
     .editDeleteButtons {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 2rem;
-      margin: 0;
-
-      @media (max-width: 380px) {
+      div {
+        display: flex;
         gap: 1rem;
       }
 
-      button {
-        border: none;
-        text-decoration: none;
-        background-color: transparent;
+      button + button {
+        margin-left: 2rem;
+      }
 
+      @media (max-width: 380px) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        button + button {
+          margin-left: 1rem;
+        }
+      }
+    }
+
+    button {
+      border: none;
+      text-decoration: none;
+      background-color: transparent;
+
+      width: 20px;
+      height: 20px;
+
+      &:first-child {
+        color: var(--blue-light);
+      }
+
+      & + button {
+        color: var(--red);
+      }
+
+      svg {
         width: 20px;
         height: 20px;
 
-        &:first-child {
-          color: var(--blue-light);
+        @media (max-width: 380px) {
+          width: 10px;
+          height: 10px;
         }
 
-        & + button {
-          color: var(--red);
-        }
+        transition: filter 0.2s;
 
-        svg {
-          width: 20px;
-          height: 20px;
-
-          @media (max-width: 380px) {
-            width: 10px;
-            height: 10px;
-          }
-
-          transition: filter 0.2s;
-
-          &:hover {
-            filter: brightness(0.9);
-          }
+        &:hover {
+          filter: brightness(0.9);
         }
       }
     }

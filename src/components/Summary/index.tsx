@@ -9,9 +9,9 @@ import { useTransactions } from "../../hooks/useTransactions";
 import { Container } from "./styles";
 
 export function Summary() {
-  const { transactions } = useTransactions();
+  const { transactionsSummary } = useTransactions();
 
-  const summary = transactions.reduce(
+  const summary = transactionsSummary.reduce(
     (acc, transaction) => {
       if (transaction.type === "deposit") {
         acc.deposits += transaction.amount;

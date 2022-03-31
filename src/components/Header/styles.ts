@@ -16,11 +16,13 @@ export const Content = styled.div`
   @media (max-width: 380px) {
     padding: 2rem 1rem 6rem;
 
-    div {
+    /* div {
+      position: relative;
+
       img {
         width: 80px;
       }
-    }
+    } */
   }
 
   .buttons {

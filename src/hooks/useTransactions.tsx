@@ -19,7 +19,17 @@ interface Transaction {
   updated_at?: string | undefined;
 }
 
-// type TransactionInput = Omit<Transaction, "id" | "createdAt">; // TransactionInput herda os campos de Transaction, menos o id e createdAt
+interface Paginate {
+  itemsCount: number;
+  itemsPerPage: number;
+  totalPages: number;
+  currentPage: number;
+  pagingCounter: number;
+  prevPage: number;
+  nextPage: number;
+  hasPrevPage: boolean;
+  hasNextPage: boolean;
+}
 
 interface TransactionsProviderProps {
   children: ReactNode;
@@ -27,6 +37,8 @@ interface TransactionsProviderProps {
 
 interface TransactionsContextData {
   transactions: Transaction[];
+  paginator: Paginate;
+  transactionsSummary: Transaction[];
   createTransaction: (transaction: Transaction) => Promise<void>;
   editTransaction: (transaction: Transaction) => Promise<void>;
   deleteTransaction: (id: string) => Promise<void>;
@@ -36,6 +48,7 @@ interface TransactionsContextData {
   handleOpenDeleteTransactionModal: (id: string) => void;
   handleCloseDeleteTransactionModal: () => void;
   deletingTransaction: Transaction;
+  getPaginatedTransactions: (page?: number) => void;
 }
 
 const TransactionsContext = createContext<TransactionsContextData>(
@@ -44,6 +57,10 @@ const TransactionsContext = createContext<TransactionsContextData>(
 
 export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactionsSummary, setTransactionsSummary] = useState<Transaction[]>(
+    []
+  );
+  const [paginator, setPaginator] = useState({} as Paginate);
   const [editingTransaction, setEditingTransaction] = useState(
     {} as Transaction
   );
@@ -56,16 +73,42 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const [isDeleteTransactionModalOpen, setIsDeleteTransactionModalOpen] =
     useState(false);
 
-  useEffect(() => {
-    api.get("transactions/list-transactions").then((response) => {
-      const data = response.data.data.transactionsList;
+  const summaryTransactions = async () => {
+    api.get("transactions/summary").then((response) => {
+      const data = response.data.transactions;
 
-      const transactionsList = data.map((t: Transaction) => t);
+      const transactionsList = data.map(
+        (transaction: Transaction) => transaction
+      );
 
-      console.log(transactionsList);
-
-      setTransactions(transactionsList);
+      setTransactionsSummary(transactionsList);
     });
+  };
+
+  const getPaginatedTransactions = async (page?: number) => {
+    api
+      .get("transactions/list-transactions", {
+        params: {
+          page,
+        },
+      })
+      .then((response) => {
+        const data = response.data.paginateTransaction;
+
+        const { paginator } = response.data.paginateTransaction; // currentPage, nextPage, prevPage, hasNextPage...
+
+        const transactionsList = data.transactionsList.map(
+          (transaction: Transaction) => transaction
+        );
+
+        setTransactions(transactionsList);
+        setPaginator(paginator);
+      });
+  };
+
+  useEffect(() => {
+    summaryTransactions();
+    getPaginatedTransactions();
   }, []);
 
   function handleOpenEditTransactionModal(_id: string) {
@@ -107,12 +150,10 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
 
     const { transaction } = response.data;
 
-    setTransactions([...transactions, transaction]);
+    setTransactions([transaction, ...transactions]);
   }
 
   async function editTransaction(transactionData: Transaction) {
-    console.log(transactionData);
-
     const response = await api.post("/transactions/edit", transactionData);
 
     const { transaction } = response.data;
@@ -127,9 +168,10 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
 
   async function deleteTransaction(_id: string) {
     await api.post("/transactions/delete", { _id });
-    // .filter(t => t._id !== transactionData._id)
 
-    const newTransactionsArray = transactions.filter((t) => t._id !== _id);
+    const newTransactionsArray = transactions.filter(
+      (transaction) => transaction._id !== _id
+    );
 
     setTransactions(newTransactionsArray);
   }
@@ -138,6 +180,8 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     <TransactionsContext.Provider
       value={{
         transactions,
+        transactionsSummary,
+        paginator,
         createTransaction,
         editTransaction,
         deleteTransaction,
@@ -147,6 +191,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
         handleOpenDeleteTransactionModal,
         handleCloseDeleteTransactionModal,
         deletingTransaction,
+        getPaginatedTransactions,
       }}
     >
       {children}

@@ -10,6 +10,8 @@ export function TransactionsTable() {
     transactions,
     handleOpenEditTransactionModal,
     handleOpenDeleteTransactionModal,
+    paginator,
+    getPaginatedTransactions,
   } = useTransactions();
 
   return (
@@ -43,33 +45,42 @@ export function TransactionsTable() {
                       )}
                     </td>
                     <td className="editDeleteButtons">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          handleOpenEditTransactionModal(
-                            transaction._id as string
-                          )
-                        }
-                      >
-                        <FaEdit />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          handleOpenDeleteTransactionModal(
-                            transaction._id as string
-                          )
-                        }
-                      >
-                        <FaTrash />
-                      </button>
+                      <div>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            handleOpenEditTransactionModal(
+                              transaction._id as string
+                            )
+                          }
+                        >
+                          <FaEdit />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            handleOpenDeleteTransactionModal(
+                              transaction._id as string
+                            )
+                          }
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
-          <Pagination currentPage={page} onPageChange={setPage} />
+          <Pagination
+            totalCountOfRegisters={paginator.itemsCount}
+            currentPage={page}
+            onPageChange={(changedPage) => {
+              getPaginatedTransactions(changedPage);
+              console.log(changedPage);
+            }}
+          />
         </>
       ) : (
         <div className="noRegister">

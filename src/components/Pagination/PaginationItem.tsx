@@ -15,5 +15,5 @@ export function PaginationItem({
     return <Button>{number}</Button>;
   }
 
-  return <Button onClick={() => onPageChange(number)}></Button>;
+  return <Button onClick={() => onPageChange(number)}>{number}</Button>;
 }
