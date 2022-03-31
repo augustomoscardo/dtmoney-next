@@ -4,7 +4,7 @@ This is a project developed during the Ignite ReactJS trail from [Rockeset](http
 
 ## Getting Started
 
-First, you'll need to create a mongoDB. Then take your DATABASE_URL and set at `mongoose.ts` file.
+First, you'll need to create a mongoDB. Then take your DATABASE_URL and set in `mongoose.ts` file.
 
 Run the development server:
 
