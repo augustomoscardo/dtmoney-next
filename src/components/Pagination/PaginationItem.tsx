@@ -7,13 +7,13 @@ interface PaginationItemProps {
 }
 
 export function PaginationItem({
-  isCurrent = false,
+  isCurrent,
   onPageChange,
   number,
 }: PaginationItemProps) {
-  if (isCurrent) {
-    return <Button>{number}</Button>;
-  }
-
-  return <Button onClick={() => onPageChange(number)}>{number}</Button>;
+  return (
+    <Button disabled={isCurrent} onClick={() => onPageChange(number)}>
+      {number}
+    </Button>
+  );
 }

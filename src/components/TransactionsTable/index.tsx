@@ -5,7 +5,6 @@ import { Pagination } from "../Pagination";
 import { Container } from "./styles";
 
 export function TransactionsTable() {
-  const [page, setPage] = useState(1);
   const {
     transactions,
     handleOpenEditTransactionModal,
@@ -75,7 +74,7 @@ export function TransactionsTable() {
           </table>
           <Pagination
             totalCountOfRegisters={paginator.itemsCount}
-            currentPage={page}
+            currentPage={paginator.currentPage}
             onPageChange={(changedPage) => {
               getPaginatedTransactions(changedPage);
               console.log(changedPage);
