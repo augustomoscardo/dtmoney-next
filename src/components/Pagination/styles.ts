@@ -4,9 +4,12 @@ export const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 6px;
 
-  margin-top: 2rem;
+  margin-top: 1rem;
+
+  @media (max-width: 380px) {
+    margin-top: 1rem;
+  }
 
   strong {
     color: var(--text-body);

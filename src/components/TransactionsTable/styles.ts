@@ -16,6 +16,7 @@ export const Container = styled.div`
     flex-direction: column;
 
     color: var(--text-title);
+
     span {
       font-size: 1.5rem;
     }
