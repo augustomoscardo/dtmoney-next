@@ -1,4 +1,4 @@
-import mongoose, { Mongoose } from "mongoose";
+import mongoose from "mongoose";
 
 let cached = global.mongoose;
 
@@ -13,14 +13,15 @@ async function dbConnect() {
 
   if (!cached.promise) {
     cached.promise = mongoose
-      .connect("process.env.DATABASE_URL", {
-        useUnifiedTopology: true,
-      })
+      .connect(process.env.DATABASE_URL as string)
       .then((mongoose) => {
         return mongoose;
       });
   }
   cached.conn = await cached.promise;
+
+  console.log("DB Connected.");
+
   return cached.conn;
 }
 
