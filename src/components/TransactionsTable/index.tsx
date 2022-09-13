@@ -77,7 +77,7 @@ export function TransactionsTable() {
             currentPage={paginator.currentPage}
             onPageChange={(changedPage) => {
               getPaginatedTransactions(changedPage);
-              console.log(changedPage);
+              console.log(`Page: ${changedPage}`);
             }}
           />
         </>
