@@ -31,7 +31,6 @@ const Home = () => {
       <Header />
       <Container>
         <span>Faça o controle do seu saldo financeiro de maneira simples</span>
-        <Image src={dashboardImg} alt="dtmoney-dashboard" width="900px" />
       </Container>
     </>
   );
