@@ -7,7 +7,7 @@ export const Container = styled.div`
 
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
 
   span {
@@ -15,5 +15,14 @@ export const Container = styled.div`
     color: var(--blue-light);
 
     margin: 2rem 0;
+  }
+
+  @media (max-width: 380px) {
+    span {
+      font-size: 24px;
+      text-align: center;
+
+      margin: 2rem auto;
+    }
   }
 `;

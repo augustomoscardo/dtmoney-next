@@ -15,14 +15,6 @@ export const Content = styled.div`
 
   @media (max-width: 380px) {
     padding: 2rem 1rem 6rem;
-
-    /* div {
-      position: relative;
-
-      img {
-        width: 80px;
-      }
-    } */
   }
 
   .buttons {
@@ -58,13 +50,19 @@ export const Content = styled.div`
         filter: brightness(0.9);
       }
 
-      @media (max-width: 380px) {
-      }
-
       svg {
         width: 20px;
         height: 20px;
         margin-right: 1rem;
+      }
+
+      @media (max-width: 380px) {
+        font-size: 0;
+        letter-spacing: 0;
+
+        svg {
+          margin-right: 0;
+        }
       }
     }
 
